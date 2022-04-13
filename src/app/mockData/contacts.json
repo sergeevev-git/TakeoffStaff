@@ -1,0 +1,32 @@
+[
+    {
+        "_id": "67rdca3eeb7f6fgeed471815",
+        "name": "Bill Gates",
+        "company": "Microsoft",
+        "phone": "+1-123-456-7890"
+    },
+    {
+        "_id": "67rdca3eeb7f6fgeed471816",
+        "name": "Steve Jobs",
+        "company": "Google",
+        "phone": "+1-123-456-7890"
+    },
+    {
+        "_id": "67rdca3eeb7f6fgeed471817",
+        "name": "Donald Trump ",
+        "company": "White House",
+        "phone": "+1-123-456-7890"
+    },
+    {
+        "_id": "67rdca3eeb7f6fgeed471818",
+        "name": "Pavel Durov",
+        "company": "Telegram",
+        "phone": "+1-123-456-7890"
+    },
+    {
+        "_id": "67rdca3eeb7f6fgeed471819",
+        "name": "Arkady Volozh",
+        "company": "Yandex",
+        "phone": "+7-123-456-7890"
+    }
+]

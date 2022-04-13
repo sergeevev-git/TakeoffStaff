@@ -37,5 +37,8 @@
             "company": "Yandex",
             "phone": "+7-123-456-7890"
         }
-    ]
+    ],
+    "profile": {
+        "name": "typicode"
+    }
 }

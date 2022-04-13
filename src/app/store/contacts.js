@@ -95,58 +95,12 @@ const createUserFailed = createAction("users/createUserFailed ");
 const userUpdateFailed = createAction("users/userUpdateFailed");
 const userUpdateRequested = createAction("users/userUpdateRequested");
 
-export const login = (payload) => (dispatch) => {
-    const { login, password } = payload;
-    { _id: nanoid(), ...payload })
-    try {
-        dispatch(authSuccess({ userId: data.localId }));
-        localStorageService.setAuthData(data);
-        // history.push(redirect);
-    } catch (error) {
-        const { code, message } = error.response.data.error;
-        if (code === 400) {
-            const errorMessage = generetaAuthError(message);
-            dispatch(authRequestFailed(errorMessage));
-        } else {
-            dispatch(authRequestFailed(error.message));
-        }
-    }
-};
 
-// export const signUp =
-//     ({ email, password, ...rest }) =>
-//     async (dispatch) => {
-//         dispatch(authRequested());
-//         try {
-//             const data = await authService.register({ email, password });
-//             localStorageService.setTokens(data);
-//             dispatch(authRequestSuccess({ userId: data.localId }));
-//             dispatch(
-//                 createUser({
-//                     _id: data.localId,
-//                     email,
-//                     rate: getRandomInt(1, 5),
-//                     completedMeetings: getRandomInt(0, 200),
-//                     image: `https://avatars.dicebear.com/api/avataaars/${(
-//                         Math.random() + 1
-//                     )
-//                         .toString(36)
-//                         .substring(7)}.svg`,
-//                     ...rest,
-//                 })
-//             );
-//         } catch (error) {
-//             dispatch(authRequestFailed(error.message));
-//         }
-//     };
-// export const logOut = () => (dispatch) => {
-//     localStorageService.removeAuthData();
-//     dispatch(userLoggedOut());
-//     history.push("/");
-// };
+
+/
 
 export const addContact = (payload) => (dispatch) => {
-    dispatch(contactAdded({ _id: nanoid(), ...payload}));
+    dispatch(contactAdded({ _id: nanoid(), ...payload }));
 };
 
 export const removeContact = (payload) => (dispatch) => {

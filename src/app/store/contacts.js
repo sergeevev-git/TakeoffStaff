@@ -1,149 +1,114 @@
 import { createAction, createSlice } from "@reduxjs/toolkit";
-import contacts from "../mockData/contacts.json";
 import { nanoid } from "nanoid";
-import localStorageService from "../services/localStorage.service";
-
-// import { generetaAuthError } from "../utils/generateAuthError";
-
-// import history from "../utils/history";
-
-const initialState = localStorageService.getAuthData()
-    ? {
-          entities: contacts,
-          error: null,
-          auth: { userId: localStorageService.getAuthData() },
-          isLoggedIn: true,
-      }
-    : {
-          entities: contacts,
-          error: null,
-          auth: null,
-          isLoggedIn: false,
-      };
-
-// const initialState = {
-//     entities: contacts,
-//     error: null,
-//     auth: { userId: localStorageService.getAuthData() },
-//     isLoggedIn: true,
-// };
+import contactsService from "../services/contacts.service";
 
 const contactsSlice = createSlice({
     name: "contacts",
-    initialState,
+    initialState: {
+        contacts: null,
+        isLoading: false,
+        dataLoaded: false,
+        error: null,
+    },
     reducers: {
-        // usersRequested: (state) => {
-        //     state.isLoading = true;
-        // },
-        // usersReceved: (state, action) => {
-        //     state.entities = action.payload;
-        //     state.dataLoaded = true;
-        //     state.isLoading = false;
-        // },
-        // usersRequestFailed: (state, action) => {
-        //     state.error = action.payload;
-        //     state.isLoading = false;
-        // },
-        authSuccess: (state, action) => {
-            state.auth = action.payload;
-            state.isLoggedIn = true;
+        contactsRequested: (state) => {
+            state.isLoading = true;
         },
-        // authRequestFailed: (state, action) => {
-        //     state.error = action.payload;
-        // },
+        contactsReceved: (state, action) => {
+            state.entities = action.payload;
+            state.dataLoaded = true;
+            state.isLoading = false;
+        },
+        contactsRequestFailed: (state, action) => {
+            state.error = action.payload;
+            state.isLoading = false;
+        },
+
         contactAdded: (state, action) => {
             state.entities.push(action.payload);
         },
+        contactUpdated: (state, action) => {
+            const elementIndex = state.entities.findIndex(
+                (c) => c.id === action.payload.id
+            );
+            state.entities[elementIndex] = {
+                ...state.entities[elementIndex],
+                ...action.payload,
+            };
+        },
         contactRemoved: (state, action) => {
             state.entities = state.entities.filter(
-                (c) => c._id !== action.payload
+                (c) => c.id !== action.payload
             );
         },
-        // userLoggedOut: (state) => {
-        //     state.entities = null;
-        //     state.isLoggedIn = false;
-        //     state.auth = null;
-        //     state.dataLoaded = false;
-        // },
-        // userUpdateSuccessed: (state, action) => {
-        //     state.entities[
-        //         state.entities.findIndex((u) => u._id === action.payload._id)
-        //     ] = action.payload;
-        // },
-        // authRequested: (state) => {
-        //     state.error = null;
-        // },
     },
 });
 
 const { reducer: contactsReducer, actions } = contactsSlice;
 const {
-    // usersRequested,
-    // usersReceved,
-    // usersRequestFiled,
-    // authRequestFailed,
-    authSuccess,
+    contactsRequested,
+    contactsReceved,
+    contactsRequestFailed,
     contactAdded,
+    contactUpdated,
     contactRemoved,
-    // userLoggedOut,
-    // userUpdateSuccessed,
 } = actions;
 
-const authRequested = createAction("users/authRequested");
-const userCreateRequested = createAction("users/userCreateRequested");
-const createUserFailed = createAction("users/createUserFailed ");
-const userUpdateFailed = createAction("users/userUpdateFailed");
-const userUpdateRequested = createAction("users/userUpdateRequested");
+const contactCreateRequested = createAction("contacts/contactCreateRequested");
+const createContactFailed = createAction("contacts/createContactFailed ");
+const contactUpdateRequested = createAction("contacts/contactUpdateRequested");
+const contactUpdateFailed = createAction("contacts/contactUpdateFailed");
+const contactDeleteRequested = createAction("contacts/contactDeleteRequested");
+const contactDeleteFailed = createAction("contacts/contactDeleteFailed");
 
-
-
-/
-
-export const addContact = (payload) => (dispatch) => {
-    dispatch(contactAdded({ _id: nanoid(), ...payload }));
+export const loadContacts = () => async (dispatch) => {
+    dispatch(contactsRequested());
+    try {
+        const data = await contactsService.fetchAll();
+        dispatch(contactsReceved(data));
+    } catch (error) {
+        dispatch(contactsRequestFailed(error.message));
+    }
 };
 
-export const removeContact = (payload) => (dispatch) => {
-    console.log(payload);
-    dispatch(contactRemoved(payload));
+export const addContact = (payload) => async (dispatch) => {
+    dispatch(contactCreateRequested());
+    try {
+        const contact = await contactsService.add({
+            id: nanoid(),
+            ...payload,
+        });
+        dispatch(contactAdded(contact));
+    } catch (error) {
+        dispatch(contactDeleteFailed(error.message));
+    }
 };
 
-// export const loadUsersList = () => async (dispatch) => {
-//     dispatch(usersRequested());
-//     try {
-//         const { content } = await userService.get();
-//         dispatch(usersReceved(content));
-//     } catch (error) {
-//         dispatch(usersRequestFiled(error.message));
-//     }
-// };
-// export const updateUser = (payload) => async (dispatch) => {
-//     dispatch(userUpdateRequested());
-//     try {
-//         const { content } = await userService.update(payload);
-//         dispatch(userUpdateSuccessed(content));
-//         history.push(`/users/${content._id}`);
-//     } catch (error) {
-//         dispatch(userUpdateFailed(error.message));
-//     }
-// };
+export const updateContact = (payload) => async (dispatch) => {
+    dispatch(contactUpdateRequested());
+    try {
+        const contact = await contactsService.update(payload);
+        dispatch(contactUpdated(contact));
+    } catch (error) {
+        dispatch(contactUpdateFailed(error.message));
+    }
+};
+
+export const removeContact = (id) => async (dispatch) => {
+    dispatch(contactDeleteRequested());
+    try {
+        const data = await contactsService.delete(id);
+        if (JSON.stringify(data) === "{}") {
+            dispatch(contactRemoved(id));
+        }
+    } catch (error) {
+        dispatch(createContactFailed(error.message));
+    }
+};
 
 export const getContactsList = () => (state) => state.contacts.entities;
+export const getDataStatus = () => (state) => state.contacts.dataLoaded;
+export const getContactsLoadingStatus = () => (state) =>
+    state.contacts.isLoading;
 
-// export const getCurrentUserData = () => (state) => {
-//     return state.users.entities
-//         ? state.users.entities.find((u) => u._id === state.users.auth.userId)
-//         : null;
-// };
-// export const getUserById = (userId) => (state) => {
-//     if (state.users.entities) {
-//         return state.users.entities.find((u) => u._id === userId);
-//     }
-// };
-
-// export const getIsLoggedIn = () => (state) => state.users.isLoggedIn;
-// export const getDataStatus = () => (state) => state.users.dataLoaded;
-// export const getUsersLoadingStatus = () => (state) => state.users.isLoading;
-// export const getCurrentUserId = () => (state) => state.users.auth.userId;
-// export const getAuthErrors = () => (state) => state.users.error;
 export default contactsReducer;

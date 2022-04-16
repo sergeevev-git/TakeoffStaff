@@ -1,51 +1,27 @@
 import React from "react";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-// import useMockData from "../utils/mockData";
-
-// import { getIsLoggedIn } from "../../store/users";
+import { getCurrentUserData, getIsLoggedIn } from "../store/user";
 
 const Navbar = () => {
-    // const isLoggedIn = useSelector(getIsLoggedIn());
+    const isLoggedIn = useSelector(getIsLoggedIn());
+    const currentUser = useSelector(getCurrentUserData());
 
-    // const { error, initialize, progress, status } = useMockData();
-    // const handleClick = () => {
-    //     initialize();
-    // };
     return (
         <nav className="navbar bg-light mb-3">
-            <div className="container-fluid">
-                <ul className="nav">
-                    <li className="nav-item"></li>
-                    {/* {isLoggedIn && ( */}
-                    <li className="nav-item">
-                        <button
-                            className="btn btn-primary"
-                            // onClick={handleClick}
-                        >
-                            загрузить данные
-                        </button>
-                        {/* <ul>
-                            <li>Status:{status}</li>
-                            <li>Progress: {progress}%</li>
-                            {error && <li>error: {error}</li>}
-                        </ul> */}
-                    </li>
-                    {/* )} */}
-                </ul>
-                {/* <div className="d-flex">
-                    {isLoggedIn ? (
-                        <NavProfile />
-                    ) : (
-                        <Link
-                            className="nav-link "
-                            aria-current="page"
-                            to="/login"
-                        >
-                            Login
-                        </Link>
-                    )}
-                </div> */}
+            <div className="container justify-content-end ">
+                {isLoggedIn && (
+                    <ul className="nav">
+                        <li className="nav-item me-5">
+                            {currentUser.userLogin}
+                        </li>
+                        <li className="nav-item">
+                            <Link to="/logout" role="btn">
+                                Logout
+                            </Link>
+                        </li>
+                    </ul>
+                )}
             </div>
         </nav>
     );

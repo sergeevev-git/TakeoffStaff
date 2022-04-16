@@ -1,25 +1,23 @@
 import httpService from "./http.service";
 
-const contactsEndPoint = "todos/";
+const contactsEndPoint = "contacts/";
 
 const contactsService = {
-    fetchAll: async (userId) => {
-        const { data } = await httpService.get(todosEndPoint, {
-            params: { userId },
-        });
+    fetchAll: async () => {
+        const { data } = await httpService.get(contactsEndPoint);
 
         return data;
     },
 
-    add: async (todo) => {
-        const { data } = await httpService.post(todosEndPoint, todo);
+    add: async (payload) => {
+        const { data } = await httpService.post(contactsEndPoint, payload);
 
         return data;
     },
 
-    edit: async (payload) => {
+    update: async (payload) => {
         const { data } = await httpService.patch(
-            todosEndPoint + `edit/${payload._id}`,
+            contactsEndPoint + `${payload.id}`,
             payload
         );
 
@@ -27,10 +25,7 @@ const contactsService = {
     },
 
     delete: async (id) => {
-        const { data } = await httpService.delete(
-            todosEndPoint + `delete/${id}`,
-            { id }
-        );
+        const { data } = await httpService.delete(contactsEndPoint + `${id}`);
 
         return data;
     },

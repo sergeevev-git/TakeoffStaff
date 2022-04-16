@@ -1,12 +1,15 @@
 import React from "react";
-import Contacts from "../components/contacts";
+
+import AddContact from "../components/table/addContact";
+import ContactsTable from "../components/table/contactsTable";
 import Navbar from "../ui/Navbar";
 
 const Main = () => {
     return (
         <div className="container">
             <Navbar />
-            <Contacts />
+            <AddContact />
+            <ContactsTable />
         </div>
     );
 };

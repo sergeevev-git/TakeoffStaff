@@ -22,6 +22,7 @@ const AddContact = () => {
 
     const handleAddContact = () => {
         dispatch(addContact(newData));
+        setNewData({ name: "", company: "", phone: "" });
     };
 
     return (

@@ -1,3 +1,3 @@
 {
-    "API_END_POINT": "https://my-json-server.typicode.com/sergeevev-git/TakeoffStaff/"
+    "API_END_POINT": "http://localhost:3001/"
 }

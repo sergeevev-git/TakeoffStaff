@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { removeContact } from "../../store/contacts";
+import { removeContact, updateContact } from "../../store/contacts";
 import EditTextField from "../form/editTextField";
 
 const User = ({ id, index, name, company, phone }) => {
-    const dispath = useDispatch();
+    const dispatch = useDispatch();
     const [editMode, setEditMode] = useState(false);
     const [data, setData] = useState({
+        id: id,
         name: name,
         company: company,
         phone: phone,
@@ -25,8 +26,14 @@ const User = ({ id, index, name, company, phone }) => {
     };
 
     const handleRemove = () => {
-        dispath(removeContact(id));
+        dispatch(removeContact(id));
     };
+
+    const handleUpdate = () => {
+        dispatch(updateContact(data));
+        toggleEditMode();
+    };
+
     return (
         <>
             <th scope="row">{index}</th>
@@ -35,6 +42,22 @@ const User = ({ id, index, name, company, phone }) => {
                     <td>{name}</td>
                     <td>{company}</td>
                     <td>{phone}</td>
+                    <td>
+                        <div className="d-flex flex-nowrap">
+                            <i
+                                className="bi bi-dash-circle"
+                                title="delete"
+                                role="button"
+                                onClick={handleRemove}
+                            ></i>
+                            <i
+                                className="bi bi-pencil mx-2"
+                                title="edit"
+                                role="button"
+                                onClick={toggleEditMode}
+                            ></i>
+                        </div>
+                    </td>
                 </>
             ) : (
                 <>
@@ -42,7 +65,7 @@ const User = ({ id, index, name, company, phone }) => {
                         <EditTextField
                             type="text"
                             name="name"
-                            value={name}
+                            value={data.name}
                             onChange={handleChange}
                             error={errors.name}
                         />
@@ -51,7 +74,7 @@ const User = ({ id, index, name, company, phone }) => {
                         <EditTextField
                             type="text"
                             name="company"
-                            value={company}
+                            value={data.company}
                             onChange={handleChange}
                             error={errors.company}
                         />
@@ -60,29 +83,23 @@ const User = ({ id, index, name, company, phone }) => {
                         <EditTextField
                             type="text"
                             name="phone"
-                            value={phone}
+                            value={data.phone}
                             onChange={handleChange}
                             error={errors.phone}
                         />
                     </td>
+                    <td>
+                        <div className="d-flex flex-nowrap">
+                            <i
+                                className="bi bi-check-circle mx-2"
+                                title="done"
+                                role="button"
+                                onClick={handleUpdate}
+                            ></i>
+                        </div>
+                    </td>
                 </>
             )}
-            <td>
-                <div className="d-flex flex-nowrap">
-                    <i
-                        className="bi bi-dash-circle"
-                        title="delete"
-                        role="button"
-                        onClick={handleRemove}
-                    ></i>
-                    <i
-                        className="bi bi-pencil mx-2"
-                        title="edit"
-                        role="button"
-                        onClick={toggleEditMode}
-                    ></i>
-                </div>
-            </td>
         </>
     );
 };

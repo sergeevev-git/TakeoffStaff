@@ -1,11 +1,11 @@
 import contactsReducer from "./contacts";
-// import userReducer from "./user";
+import userReducer from "./user";
 
 const { combineReducers, configureStore } = require("@reduxjs/toolkit");
 
 const rootReducer = combineReducers({
     contacts: contactsReducer,
-    // user: userReducer,
+    user: userReducer,
 });
 
 export function createStore() {

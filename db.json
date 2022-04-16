@@ -1,19 +1,76 @@
 {
-  "posts": [
+  "users": [
     {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
+      "id": "3123b767rdf1ger16ge23d47",
+      "login": "admin",
+      "password": "password"
+    },
+    {
+      "id": "3123b767rdf1ger16ge23d42",
+      "login": "admin2",
+      "password": "password"
     }
   ],
-  "comments": [
+  "contacts": [
     {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
+      "id": "67rdca3eeb7f6fgeed471815",
+      "name": "Bill Gates",
+      "company": "Microsoft",
+      "phone": "+1-123-456-7890"
+    },
+    {
+      "id": "67rdca3eeb7f6fgeed471816",
+      "name": "Steve Jobs",
+      "company": "Google",
+      "phone": "+1-123-456-7890"
+    },
+    {
+      "id": "67rdca3eeb7f6fgeed471817",
+      "name": "Donald Trump ",
+      "company": "White House",
+      "phone": "+1-123-456-7890"
+    },
+    {
+      "id": "67rdca3eeb7f6fgeed471818",
+      "name": "Pavel Durov",
+      "company": "Telegram",
+      "phone": "+1-123-456-7890"
+    },
+    {
+      "id": "67rdca3eeb7f6fgeed471819",
+      "name": "Arkady Volozh",
+      "company": "Yandex",
+      "phone": "+7-123-456-7890"
+    },
+    {
+      "id": "G13_eK0mAKm7C-qJ0xya0",
+      "name": "11",
+      "company": "11",
+      "phone": "11"
+    },
+    {
+      "id": "sEXuuMnqz-OtukEhMUS6C",
+      "name": "2",
+      "company": "2",
+      "phone": "2"
+    },
+    {
+      "id": "XJPyGlCtTO3XfMNz7xXSL",
+      "name": "55",
+      "company": "55",
+      "phone": "55"
+    },
+    {
+      "id": "1pSvBhDRmhjPP_vrPe37y",
+      "name": "111",
+      "company": "111",
+      "phone": ""
+    },
+    {
+      "id": "yoryhJsVIhNZoGSwr-i3o",
+      "name": "444",
+      "company": "444",
+      "phone": "444"
     }
-  ],
-  "profile": {
-    "name": "typicode"
-  }
+  ]
 }
